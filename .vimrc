@@ -2,16 +2,16 @@
 
 call plug#begin('~/.nvim/plugged')
 
-
+Plug 'airblade/vim-gitgutter'
 Plug 'vim-auto-save'
 Plug 'scrooloose/nerdtree'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'pangloss/vim-javascriptq'
+Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
 " Plug 'mxw/vim-jsx'
 Plug 'elzr/vim-json'
 Plug 'leafgarland/typescript-vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'jszakmeister/vim-togglecursor'
 Plug 'rking/ag.vim'
 Plug 'FooSoft/vim-argwrap'
@@ -22,21 +22,26 @@ Plug 'yggdroot/indentLine'
 Plug 'othree/yajs.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'ervandew/supertab'
+
 " Theme
+Plug 'MaxSt/FlatColor'
 Plug 'tomasr/molokai'
+Plug 'jdkanani/vim-material-theme'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-" Set the theme
-set background=dark
-colorscheme molokai
-syntax enable
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 
-let g:javascript_enable_domhtmlcss=1
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" Set the theme
+colorscheme flatcolor
+" set t_Co=256
+syntax enable
+highlight LineNr guibg=NONE
 
 " Encoding
 set encoding=utf-8
@@ -65,13 +70,13 @@ set nowritebackup
 set history=10000
 set noswapfile
 set nobackup
-set showcmd
+
+" Mouse
+set mouse=a
+set ttyfast
 
 " Use system clipboard
 set clipboard=unnamed
-
-" Highlight long lines
-set synmaxcol=512
 
 " Watch files
 set autoread
@@ -85,6 +90,14 @@ set showcmd
 " visual autocomplete for command menu
 set wildmenu
 
+" Extend our undoable steps and preserve over restart (if available)
+if has('persistent_undo')
+  set undodir=$TMPDIR,~/tmp,~/.vim/tmp,/tmp,/var/tmp
+  set undofile
+  set undoreload=10000
+end
+set undolevels=10000
+
 " FZF
 noremap <c-p> :FZF<CR>
 
@@ -97,6 +110,8 @@ let g:auto_save_in_insert_mode = 0
 " linting
 autocmd! BufRead,BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_ruby_enabled_makers = ['rubocop']
+
 let g:neomake_warning_sign = {
   \ 'text': 'W',
   \ 'texthl': 'WarningMsg',
@@ -105,7 +120,6 @@ let g:neomake_error_sign = {
   \ 'text': 'E',
   \ 'texthl': 'ErrorMsg',
   \ }
-
 " Set leader to space
 nmap <space> <leader>
 nmap <space><space> <leader><leader>
@@ -145,8 +159,6 @@ noremap , A,<Esc>
 
 " Expand/Collapse arguments
 nnoremap <silent> <leader>y :ArgWrap<CR>
-
-
 
 " neomake
 nmap <Leader>i :ll<CR>         " go to current error/warning
