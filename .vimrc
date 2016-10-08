@@ -42,7 +42,8 @@ colorscheme flatcolor
 " set t_Co=256
 syntax enable
 highlight LineNr guibg=NONE
-
+let g:indentLine_char = '|'
+let g:indentLine_color_term = 000
 " Encoding
 set encoding=utf-8
 
