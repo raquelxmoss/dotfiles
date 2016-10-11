@@ -8,7 +8,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
-" Plug 'mxw/vim-jsx'
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'elzr/vim-json'
 Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
@@ -19,7 +19,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'neomake/neomake'
 Plug 'yggdroot/indentLine'
-Plug 'othree/yajs.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'ervandew/supertab'
 
