@@ -1,16 +1,13 @@
 "Plugins --
-
 call plug#begin('~/.nvim/plugged')
 
-Plug 'airblade/vim-gitgutter'
 Plug 'vim-auto-save'
 Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'pangloss/vim-javascript'
-Plug 'crusoexia/vim-javascript-lib'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
-Plug 'elzr/vim-json'
 Plug 'leafgarland/typescript-vim'
+" Plug 'mxw/vim-jsx'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'jszakmeister/vim-togglecursor'
 Plug 'rking/ag.vim'
@@ -21,6 +18,7 @@ Plug 'neomake/neomake'
 Plug 'yggdroot/indentLine'
 Plug 'tpope/vim-fugitive'
 Plug 'ervandew/supertab'
+" Plug 'jdonaldson/vaxe'
 
 " Theme
 Plug 'MaxSt/FlatColor'
@@ -43,6 +41,10 @@ syntax enable
 highlight LineNr guibg=NONE
 let g:indentLine_char = '|'
 let g:indentLine_color_term = 000
+
+" JSX highlighting on .js files
+" let g:jsx_ext_required = 0
+
 " Encoding
 set encoding=utf-8
 
@@ -106,20 +108,21 @@ let g:auto_save = 1  " enable AutoSave
 let g:auto_save_silent = 1  " do not display the auto-save notification
 let g:auto_save_in_insert_mode = 0
 
-
 " linting
 autocmd! BufRead,BufWritePost * Neomake
+
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
 
 let g:neomake_warning_sign = {
   \ 'text': 'W',
-  \ 'texthl': 'WarningMsg',
+  \ 'texthl': 'WarningMsg'
   \ }
 let g:neomake_error_sign = {
   \ 'text': 'E',
-  \ 'texthl': 'ErrorMsg',
+  \ 'texthl': 'ErrorMsg'
   \ }
+
 " Set leader to space
 nmap <space> <leader>
 nmap <space><space> <leader><leader>
