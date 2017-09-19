@@ -1,9 +1,9 @@
 "Plugins --
 call plug#begin('~/.nvim/plugged')
 
-Plug 'vim-auto-save'
+Plug '907th/vim-auto-save'
 Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
@@ -35,6 +35,7 @@ if has('nvim')
 endif
 
 " Set the theme
+let g:flatcolor_termcolors = 16
 colorscheme flatcolor
 " set t_Co=256
 syntax enable
@@ -113,15 +114,6 @@ autocmd! BufRead,BufWritePost * Neomake
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
-
-let g:neomake_warning_sign = {
-  \ 'text': 'W',
-  \ 'texthl': 'WarningMsg'
-  \ }
-let g:neomake_error_sign = {
-  \ 'text': 'E',
-  \ 'texthl': 'ErrorMsg'
-  \ }
 
 " Set leader to space
 nmap <space> <leader>

@@ -115,11 +115,12 @@ alias ez="vi ~/.zshrc"
 alias rubocop="bundle exec rubocop --format simple"
 alias plex="open http://$(ifconfig en0 | grep 'inet ' | cut -d' ' -f2):32400/web/index.html"
 
-export FZF_DEFAULT_COMMAND='ag -l -g --hidden""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export HAXE_STD_PATH="/usr/local/lib/haxe/std"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias gdc="gd --cached"
+alias ipaddress="ipconfig getifaddr en0"
 
 # added by travis gem
 [ -f /Users/raquelmoss/.travis/travis.sh ] && source /Users/raquelmoss/.travis/travis.sh
