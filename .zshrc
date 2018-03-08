@@ -113,14 +113,15 @@ alias vi="nvim"
 alias zsh_reload="source ~/.zshrc"
 alias ez="vi ~/.zshrc"
 alias rubocop="bundle exec rubocop --format simple"
-alias plex="open http://$(ifconfig en0 | grep 'inet ' | cut -d' ' -f2):32400/web/index.html"
-
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+# alias plex="open http://$(ifconfig en0 | grep 'inet ' | cut -d' ' -f2):32400/web/index.html"
 export HAXE_STD_PATH="/usr/local/lib/haxe/std"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FZF_DEFAULT_COMMAND='ag --hidden -l -g ""'
 alias gdc="gd --cached"
 alias ipaddress="ipconfig getifaddr en0"
 
 # added by travis gem
 [ -f /Users/raquelmoss/.travis/travis.sh ] && source /Users/raquelmoss/.travis/travis.sh
+export PATH="/usr/local/opt/elasticsearch@5.6/bin:$PATH"

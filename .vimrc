@@ -6,6 +6,8 @@ Plug 'scrooloose/nerdtree'
 " Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
+Plug 'othree/es.next.syntax.vim' " es7
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'leafgarland/typescript-vim'
 " Plug 'mxw/vim-jsx'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
@@ -17,7 +19,10 @@ Plug 'tpope/vim-commentary'
 Plug 'neomake/neomake'
 Plug 'yggdroot/indentLine'
 Plug 'tpope/vim-fugitive'
+Plug 'alx741/vim-hindent'
 Plug 'ervandew/supertab'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'alx741/vim-hindent'
 " Plug 'jdonaldson/vaxe'
 
 " Theme
@@ -38,7 +43,8 @@ endif
 let g:flatcolor_termcolors = 16
 colorscheme flatcolor
 " set t_Co=256
-syntax enable
+syntax on
+filetype plugin indent on
 highlight LineNr guibg=NONE
 let g:indentLine_char = '|'
 let g:indentLine_color_term = 000
@@ -114,6 +120,24 @@ autocmd! BufRead,BufWritePost * Neomake
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
+
+" Haskell syntax
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:haskell_indent_if = 3
+let g:haskell_indent_case = 2
+let g:haskell_indent_let = 4
+let g:haskell_indent_where = 6
+let g:haskell_indent_before_where = 2
+let g:haskell_indent_after_bare_where = 2
+let g:haskell_indent_do = 3
+let g:haskell_indent_in = 1
+let g:haskell_indent_guard = 2
 
 " Set leader to space
 nmap <space> <leader>
