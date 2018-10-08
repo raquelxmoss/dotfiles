@@ -37,3 +37,6 @@
 
   # Edit the last commit
   amend= commit --verbose --amend
+[user]
+	name = Raquel Moss
+	email = raquelxmoss@gmail.com

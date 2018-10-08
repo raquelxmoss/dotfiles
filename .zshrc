@@ -5,7 +5,8 @@ export ZSH=/Users/raquelmoss/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
+ZSH_THEME="avit"
 DEFAULT_USER="$USER"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -69,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 
-BUNDLER_EDITOR="nvim"
+# BUNDLER_EDITOR="nvim"
 
 setopt correct
 
@@ -88,6 +89,16 @@ p () {
 _p() { _files -W ~/Projects -/; }
 compdef _p p
 
+# an ag command with some options turned on --k
+# context to show the lines around the result
+# numbers to show page numbers
+# passed to less as a pager
+mag () {
+  local first=$1
+  shift
+  ag $first -C --numbers --pager=less --ignore=node_modules,client/app/screens/ComponentDev/mockData/ $@
+}
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -98,7 +109,7 @@ eval "$(rbenv init -)"
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
+alias zshconfig="vim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias be="bundle exec"
 alias r="rspec"
@@ -106,22 +117,18 @@ alias rspec="bundle exec rspec"
 alias d="cd ~/Desktop"
 alias rr="rake routes"
 alias hhpush="git push heroku master && heroku run rake db:migrate"
-alias subl="'/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl'"
-alias rubocop="bundle exec rubocop"
 alias vim="nvim"
 alias vi="nvim"
 alias zsh_reload="source ~/.zshrc"
 alias ez="vi ~/.zshrc"
-alias rubocop="bundle exec rubocop --format simple"
 # alias plex="open http://$(ifconfig en0 | grep 'inet ' | cut -d' ' -f2):32400/web/index.html"
-export HAXE_STD_PATH="/usr/local/lib/haxe/std"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export FZF_DEFAULT_COMMAND='ag --hidden -l -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 alias gdc="gd --cached"
 alias ipaddress="ipconfig getifaddr en0"
+# alias ag=
 
 # added by travis gem
 [ -f /Users/raquelmoss/.travis/travis.sh ] && source /Users/raquelmoss/.travis/travis.sh
-export PATH="/usr/local/opt/elasticsearch@5.6/bin:$PATH"

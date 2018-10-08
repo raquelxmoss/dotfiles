@@ -33,7 +33,6 @@ Rails:
   Enabled: true
 
 AllCops:
-  TargetRubyVersion: 2.3
   Include:
     # Include important files that don't end in .rb
     - '**/Rakefile'
