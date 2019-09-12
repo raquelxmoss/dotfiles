@@ -14,9 +14,8 @@ Plug 'posva/vim-vue'
 " Plug 'othree/javascript-libraries-syntax.vim'
 " Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
-Plug 'jszakmeister/vim-togglecursor'
 Plug 'rking/ag.vim'
-Plug 'FooSoft/vim-argwrap'
+" Plug 'FooSoft/vim-argwrap'
 Plug 'tpope/vim-commentary'
 Plug 'neomake/neomake'
 Plug 'yggdroot/indentLine'
@@ -26,8 +25,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive' " Gblame, amongst other git stuff
 Plug 'tpope/vim-abolish'
+Plug '~/Projects/vim-argwrap'
 " Theme
 "
+"
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'MaxSt/FlatColor'
 " Plug 'tomasr/molokai'
 " Plug 'jdkanani/vim-material-theme'
@@ -38,22 +40,34 @@ Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Set the theme
-let g:flatcolor_termcolors = 16
-colorscheme flatcolor
-syntax on
+" let g:flatcolor_termcolors = 16
+let g:dracula_colorterm = 0
+" let g:dracula_italic = 0
+" colorscheme flatcolor
+color dracula
+
+syntax enable
+highlight Comment cterm=italic
+
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+highlight ExtraWhitespace ctermbg='white'
+
+" set termguicolors
+
 filetype plugin indent on
 highlight LineNr guibg=NONE
 let g:indentLine_char = '|'
-let g:indentLine_color_term = 000
+let g:indentLine_color_term = 240
 " let g:gitgutter_max_signs = 500
 " let g:gitgutter_map_keys = 0
 highlight clear LineNr
-highlight clear SignColumn
-highlight LineNr ctermfg=blue
+" highlight clear SignColumn
+" highlight LineNr ctermfg=blue
 
 " Thanks to http://superuser.com/questions/558876/how-can-i-make-the-sign-column-show-up-all-the-time-even-if-no-signs-have-been-a
-" autocmd BufEnter * sign define dummy
-" autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+autocmd BufEnter * sign define dummy
+autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " JSX highlighting on .js files
 augroup filetype javascript syntax=javascript
@@ -99,7 +113,7 @@ set clipboard=unnamedplus
 set autoread
 
 " Save on changing buffers
-set autowrite
+" set autowrite
 
 " Display command
 set showcmd
@@ -124,14 +138,26 @@ let g:auto_save_silent = 1  " do not display the auto-save notification
 let g:auto_save_in_insert_mode = 0
 
 " statusline
-set statusline = "%{FugitiveStatusline()}"
+" set statusline = "%{FugitiveStatusline()}"
 " linting
-" call neomake#configure#automake('w', 1000)
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_ruby_enabled_makers = ['rubocop']
+"
+"
+autocmd! BufReadPost,BufWritePost * Neomake
 
+call neomake#configure#automake('w')
+" call neomake#configure#automake('nw', 750)
+
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
+
+let g:neomake_logfile = '/tmp/neomake.log'
+let g:neomake_ruby_enabled_makers = ['rubocop', 'mri']
+
+let g:neomake_place_signs = 1
 " Vue
 let g:vue_disable_pre_processors=1
+
 " Haskell syntax
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`

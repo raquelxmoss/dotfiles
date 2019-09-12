@@ -70,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 
-# BUNDLER_EDITOR="nvim"
+export BUNDLER_EDITOR="nvim"
 
 setopt correct
 
@@ -96,27 +96,25 @@ compdef _p p
 mag () {
   local first=$1
   shift
-  ag $first -C --numbers --pager=less --ignore=node_modules,client/app/screens/ComponentDev/mockData/ $@
+  ag $first -C --numbers --pager=less --ignore=node_modules --ignore=client/app/screens/ComponentDev $@
 }
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/node_modules/.bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
+
 eval "$(rbenv init -)"
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 alias be="bundle exec"
-alias r="rspec"
 alias rspec="bundle exec rspec"
-alias d="cd ~/Desktop"
 alias rr="rake routes"
-alias hhpush="git push heroku master && heroku run rake db:migrate"
 alias vim="nvim"
 alias vi="nvim"
 alias zsh_reload="source ~/.zshrc"
@@ -128,7 +126,19 @@ alias ez="vi ~/.zshrc"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 alias gdc="gd --cached"
 alias ipaddress="ipconfig getifaddr en0"
-# alias ag=
+alias flush-dns="sudo killall -HUP mDNSResponder"
+
+export HISTCONTROL="ignoreboth:erasedups"
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_BEEP
 
 # added by travis gem
 [ -f /Users/raquelmoss/.travis/travis.sh ] && source /Users/raquelmoss/.travis/travis.sh
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
