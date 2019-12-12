@@ -15,7 +15,7 @@ Plug 'posva/vim-vue'
 " Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'rking/ag.vim'
-" Plug 'FooSoft/vim-argwrap'
+Plug 'FooSoft/vim-argwrap'
 Plug 'tpope/vim-commentary'
 Plug 'neomake/neomake'
 Plug 'yggdroot/indentLine'

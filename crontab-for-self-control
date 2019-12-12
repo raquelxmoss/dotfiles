@@ -1,0 +1,2 @@
+30 8 * * 1-5 /usr/local/bin/.selfcontrol.sh
+00 21 * * 1-5 /usr/local/bin/slack.sh
