@@ -3,16 +3,11 @@ call plug#begin('~/.nvim/plugged')
 
 Plug '907th/vim-auto-save'
 Plug 'scrooloose/nerdtree'
-" Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'othree/es.next.syntax.vim' " es7
-" Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-" Plug 'isRuslan/vim-es6'
 Plug 'posva/vim-vue'
-" Plug 'othree/javascript-libraries-syntax.vim'
-" Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'rking/ag.vim'
 Plug 'FooSoft/vim-argwrap'
@@ -25,14 +20,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive' " Gblame, amongst other git stuff
 Plug 'tpope/vim-abolish'
-Plug '~/Projects/vim-argwrap'
-" Theme
-"
-"
+Plug 'ervandew/supertab'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'MaxSt/FlatColor'
-" Plug 'tomasr/molokai'
-" Plug 'jdkanani/vim-material-theme'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -40,17 +30,17 @@ Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Set the theme
-" let g:flatcolor_termcolors = 16
 let g:dracula_colorterm = 0
 " let g:dracula_italic = 0
-" colorscheme flatcolor
 color dracula
 
 syntax enable
 highlight Comment cterm=italic
 
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+" no idea what those do, turning them off for a while
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+"
 highlight ExtraWhitespace ctermbg='white'
 
 " set termguicolors
@@ -59,15 +49,11 @@ filetype plugin indent on
 highlight LineNr guibg=NONE
 let g:indentLine_char = '|'
 let g:indentLine_color_term = 240
-" let g:gitgutter_max_signs = 500
-" let g:gitgutter_map_keys = 0
 highlight clear LineNr
-" highlight clear SignColumn
-" highlight LineNr ctermfg=blue
 
 " Thanks to http://superuser.com/questions/558876/how-can-i-make-the-sign-column-show-up-all-the-time-even-if-no-signs-have-been-a
-autocmd BufEnter * sign define dummy
-autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+" autocmd BufEnter * sign define dummy
+" autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " JSX highlighting on .js files
 augroup filetype javascript syntax=javascript
@@ -113,13 +99,19 @@ set clipboard=unnamedplus
 set autoread
 
 " Save on changing buffers
-" set autowrite
+set autowrite
 
 " Display command
 set showcmd
 
 " visual autocomplete for command menu
 set wildmenu
+
+" after flailing around with ctags, it made my autocomplete unusable
+" this is a hack to make vim ignore whatever tags file ctags generated
+" which I can't even find. Until I figure that out, here we are
+" :upsidedown_smile:
+set tags=""
 
 " Extend our undoable steps and preserve over restart (if available)
 if has('persistent_undo')
@@ -137,45 +129,22 @@ let g:auto_save = 1  " enable AutoSave
 let g:auto_save_silent = 1  " do not display the auto-save notification
 let g:auto_save_in_insert_mode = 0
 
-" statusline
-" set statusline = "%{FugitiveStatusline()}"
 " linting
-"
-"
 autocmd! BufReadPost,BufWritePost * Neomake
 
 call neomake#configure#automake('w')
 " call neomake#configure#automake('nw', 750)
 
 let g:neomake_javascript_enabled_makers = ['eslint']
-
-let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-
+let g:neomake_javascript_eslint_exe = '/usr/local/bin/eslint'
 let g:neomake_logfile = '/tmp/neomake.log'
 let g:neomake_ruby_enabled_makers = ['rubocop', 'mri']
-
 let g:neomake_place_signs = 1
+
 " Vue
 let g:vue_disable_pre_processors=1
 
-" Haskell syntax
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-let g:haskell_indent_if = 3
-let g:haskell_indent_case = 2
-let g:haskell_indent_let = 4
-let g:haskell_indent_where = 6
-let g:haskell_indent_before_where = 2
-let g:haskell_indent_after_bare_where = 2
-let g:haskell_indent_do = 3
-let g:haskell_indent_in = 1
-let g:haskell_indent_guard = 2
-
+" Argwrap specific settings
 let g:argwrap_padded_braces = '{'
 
 " Set leader to space
@@ -193,7 +162,7 @@ noremap <leader>o o<Esc>k
 noremap <leader>O O<Esc>j
 
 imap kj <Esc>:w<CR>
-imap jj <Esc>:w<CR>
+imap jj <Esc>:nohl<CR>
 
 " Zoom around vim & tmux panes with hjkl
 nnoremap <C-J> <C-W><C-J>
@@ -211,6 +180,9 @@ noremap   <Right>  <NOP>
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Remove search highlighting
+nmap <silent> <leader>jj :nohl<CR>
 
 " Add semicolon at end of line
 noremap ; A;<Esc>
