@@ -89,6 +89,17 @@ p () {
 _p() { _files -W ~/Projects -/; }
 compdef _p p
 
+# use note <note-name> to navigate to open note
+note () {
+  cd ~/Projects/personal-notes
+  NAME=$(basename $1 .md)
+  touch ${NAME}.md
+  open ${NAME}.md
+}
+
+_note() { _files -W ~/Projects/personal-notes -/; }
+compdef _note note
+
 # an ag command with some options turned on --k
 # context to show the lines around the result
 # numbers to show page numbers
@@ -106,6 +117,11 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 
 eval "$(rbenv init -)"
 
+# args: url, name
+function gif_download() {
+  curl $1 --output ~/Documents/gifs/$2.gif
+}
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -119,14 +135,19 @@ alias vim="nvim"
 alias vi="nvim"
 alias zsh_reload="source ~/.zshrc"
 alias ez="vi ~/.zshrc"
+
 # alias plex="open http://$(ifconfig en0 | grep 'inet ' | cut -d' ' -f2):32400/web/index.html"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 alias gdc="gd --cached"
+alias gcm="gco main"
+alias gb="git branch --sort=-committerdate"
 alias ipaddress="ipconfig getifaddr en0"
 alias flush-dns="sudo killall -HUP mDNSResponder"
+alias clear-sidekiq="redis-cli flushdb"
+alias rpsec="rspec"
 
 export HISTCONTROL="ignoreboth:erasedups"
 setopt EXTENDED_HISTORY
@@ -144,3 +165,4 @@ setopt HIST_BEEP
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"

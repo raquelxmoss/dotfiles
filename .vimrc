@@ -9,10 +9,11 @@ Plug 'othree/es.next.syntax.vim' " es7
 Plug 'mxw/vim-jsx'
 Plug 'posva/vim-vue'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+Plug 'junegunn/fzf.vim'
 Plug 'rking/ag.vim'
 Plug 'FooSoft/vim-argwrap'
 Plug 'tpope/vim-commentary'
-Plug 'neomake/neomake'
+Plug 'dense-analysis/ale'
 Plug 'yggdroot/indentLine'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'roman/golden-ratio'
@@ -23,6 +24,8 @@ Plug 'tpope/vim-abolish'
 Plug 'ervandew/supertab'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'MaxSt/FlatColor'
+Plug 'easymotion/vim-easymotion'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -52,8 +55,8 @@ let g:indentLine_color_term = 240
 highlight clear LineNr
 
 " Thanks to http://superuser.com/questions/558876/how-can-i-make-the-sign-column-show-up-all-the-time-even-if-no-signs-have-been-a
-" autocmd BufEnter * sign define dummy
-" autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+autocmd BufEnter * sign define dummy
+autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " JSX highlighting on .js files
 augroup filetype javascript syntax=javascript
@@ -107,11 +110,14 @@ set showcmd
 " visual autocomplete for command menu
 set wildmenu
 
+set updatetime=750
+
 " after flailing around with ctags, it made my autocomplete unusable
 " this is a hack to make vim ignore whatever tags file ctags generated
 " which I can't even find. Until I figure that out, here we are
 " :upsidedown_smile:
-set tags=""
+" set tags=""
+set statusline+=%{gutentags#statusline()}
 
 " Extend our undoable steps and preserve over restart (if available)
 if has('persistent_undo')
@@ -122,24 +128,23 @@ end
 set undolevels=10000
 
 " FZF
-noremap <c-p> :FZF<CR>
+noremap <c-p> :Files<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+command! -bang -nargs=? -complete=dir Files
+     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 "vim-auto-save
 let g:auto_save = 1  " enable AutoSave
-let g:auto_save_silent = 1  " do not display the auto-save notification
+let g:auto_save_silent = 0  " do not display the auto-save notification
 let g:auto_save_in_insert_mode = 0
+" potentially add 'InsertLeave' back to save_events
+let g:auto_save_events = ["CursorHold"]
 
 " linting
-autocmd! BufReadPost,BufWritePost * Neomake
-
-call neomake#configure#automake('w')
-" call neomake#configure#automake('nw', 750)
-
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_javascript_eslint_exe = '/usr/local/bin/eslint'
-let g:neomake_logfile = '/tmp/neomake.log'
-let g:neomake_ruby_enabled_makers = ['rubocop', 'mri']
-let g:neomake_place_signs = 1
+"
+let b:ale_fixers = ['prettier', 'eslint', 'rubocop']
+let g:ale_sign_column_always = 1
+" let g:ale_lint_delay
 
 " Vue
 let g:vue_disable_pre_processors=1
@@ -176,10 +181,9 @@ noremap   <Up>     <NOP>
 noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
-
 " Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>ev :e ~/.vimrc<CR>
+nmap <silent> <leader>sv :so ~/.vimrc<CR>
 
 " Remove search highlighting
 nmap <silent> <leader>jj :nohl<CR>
@@ -190,7 +194,9 @@ noremap ; A;<Esc>
 " Add comma at end of line
 noremap , A,<Esc>
 
-noremap <Leader><Leader> i<space><Esc>
+noremap ff i<space><Esc>
+noremap FF a<space><Esc>
+
 " Expand/Collapse arguments
 nnoremap <silent> <leader>y :ArgWrap<CR>
 
